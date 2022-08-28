@@ -1,0 +1,134 @@
+﻿@page "/learnBlazor/bindProp"
+
+<h2 class="text-warning"> Individual Product</h2>
+<div class="row">
+    <div class="col-6 border p-3">
+        <h3 class="text-primary">Product Playground</h3><hr />
+
+        <div>
+            Active:
+            <input type="checkbox" @bind-value="Product.IsActive" @bind-value:event="oninput" checked="@(Product.IsActive?"checked":null)" />
+        </div>
+        <br />
+        <div>
+            Price:
+            <input type="number" @bind-value="@Product.Price" @bind-value:event="oninput" />
+        </div>
+        <br />
+        @*Price: <input type="number" @bind="@Product.Price" @bind:event="oninput"/> *@
+
+        <div>
+            <select @bind="selectedProp">
+                <option>---------</option>
+                @foreach (var prop in Product.ProductProperties)
+                {
+                    <option value="@prop.Key"> @prop.Key </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="col-6 border p-2">
+        <h3 class="text-primary">Product Summary</h3><hr />
+
+        Name: @Product.Name
+        <br />
+        Active: @Product.IsActive
+        <br />
+        Price: @Product.Price
+        <br />
+        This Product Is: @(Product.IsActive ? "Active":"InActive")
+        <br />
+        Property Selected : @selectedProp
+        @if (!string.IsNullOrWhiteSpace(selectedProp))
+        {
+            <p>Property Value: @Product.ProductProperties.FirstOrDefault(p=>p.Key==selectedProp).Value</p>
+        }
+    </div>
+</div>
+
+<div class="col-12 pt-4">
+    <h2 class="text-success"> Product table</h2>
+    <table class="table table-striped">
+        <tbody>
+            @foreach (var item in Products)
+            {
+                <tr>
+                    <td>
+                        <input type="text" @bind-value="item.Name" @bind-value:event="oninput" />
+                    </td>
+                    <td>
+                        <input type="text" @bind-value="item.Price" @bind-value:event="oninput" />
+                    </td>
+                    <td>
+                        <input type="checkbox" @bind-value="item.IsActive" checked="@(item.IsActive?"checked":null)" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+
+    <h2>Product Summary</h2>
+    @foreach (var item in Products)
+    {
+        <p>@item.Name (<span class="text-info">@item.Price</span> LE) is @(item.IsActive? "Active":"InActive")</p>
+    }
+</div>
+
+
+
+@code {
+    private string selectedProp = "";
+
+    Demo_Product Product = new()
+        {
+            Id = 1,
+            Name = "IPhones",
+            Price = 10.99,
+            IsActive = true,
+            ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp{Id=1,Key="Color",Value="black"},
+                new Demo_ProductProp{Id=2,Key="Size",Value="3kg"},
+                new Demo_ProductProp{Id=3,Key="Camera",Value="20MP"},
+            }
+        };
+
+    List<Demo_Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Midnight Blaze",
+                Price = 10.99,
+
+                IsActive = false,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp{Id=1,Key="Flavor",Value="Rose"},
+                new Demo_ProductProp{Id=2,Key="Size",Value="20KG"},
+                new Demo_ProductProp{Id=3,Key="Color",Value="Purple"}
+            }
+            });
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Blossom Lily",
+                IsActive = true,
+                Price = 65.32,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp{Id=1,Key="Flavor",Value="Rose"},
+                new Demo_ProductProp{Id=2,Key="Size",Value="20KG"},
+                new Demo_ProductProp{Id=3,Key="Color",Value="Purple"}
+            }
+            });
+        base.OnInitialized();
+    }
+}
