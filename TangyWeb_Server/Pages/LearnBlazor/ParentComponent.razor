@@ -14,7 +14,13 @@
 <p><b>@messageText</b></p>
 <_AnotherChildComponent placeholder="Placeholder from parent"></_AnotherChildComponent>
 
+<div class="row">
+    <button class="btn btn-outline-success">Show sweetAlert</button>
+</div>
+
 @code {
+    private _
+
     public string MessageForGrandChild = "This message is from your grand parent";
     public string LuckyNumber { get; set; } = "7";
     [Parameter]

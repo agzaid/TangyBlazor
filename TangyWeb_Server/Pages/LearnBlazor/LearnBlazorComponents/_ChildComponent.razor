@@ -1,4 +1,6 @@
 ﻿
+@inject IJSRuntime _jsRuntime
+
 <div>
     <div class="alert alert-info">@Title</div>
     <div class="alert alert-success">
@@ -28,4 +30,10 @@
     public RenderFragment DangerChildContent { get; set; }
     [Parameter]
     public EventCallback OnButtonClick { get; set; }
+
+    private async Task ToastrSuccess()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error","Error task failed failed");
+        
+    }
 }

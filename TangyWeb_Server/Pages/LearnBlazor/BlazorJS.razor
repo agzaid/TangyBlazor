@@ -1,0 +1,62 @@
+﻿@page "/learnBlazor/blazorJS"
+@inject IJSRuntime _jsRuntime
+
+<h3>BlazorJS</h3>
+
+<div class="row">
+    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test confirm button</button>
+</div>
+<br />
+<div class="row"
+    <button class="btn btn-success m-2"style="width:100px" @onclick="SweetAlertSuccess">Sweet alert Success</button>
+    <button class="btn btn-danger m-2" style="width:100px" @onclick="SweetAlertFailure">Sweet alert Failure</button>
+</div>
+<br />
+<div class="row">
+    <button class="btn btn-success m-2"style="width:100px;"  @onclick="ToastrSuccess">Toustr Success</button>
+    <button class="btn btn-warning m-2"style="width:100px;"  @onclick="ToastrWarning">Toustr Warning</button>
+    <button class="btn btn-danger" style="width:100px;" @onclick="ToastrFailed">Toustr Failed</button>
+</div>
+
+<div class="row">
+    @if (confirmResult)
+    {
+        <p>confirmation has been made!</p>
+    }else
+    {
+        <p>confirmation pending!</p>
+    }
+</div>
+
+@code {
+    private string ConfirmMessage = "Are you sure you want to click?";
+    private bool confirmResult { get; set; }
+
+    private async Task TestConfirmBox()
+    {
+       confirmResult= await _jsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
+    private async Task ToastrSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("OperationSuccess");
+    }
+    private async Task ToastrWarning()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowToastr", "warning","Error failed");
+    }
+    private async Task ToastrFailed()
+    {
+        //await _jsRuntime.InvokeVoidAsync("ShowToastr", "error","Error failed");
+        await _jsRuntime.ToastrError("Error failed");
+    }
+    private async Task SweetAlertSuccess()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success","TAsk completed succefully");
+    }
+    private async Task SweetAlertFailure()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error","Error task failed failed");
+        
+    }
+
+}
