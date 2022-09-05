@@ -3,7 +3,8 @@
 <h3>Parent child Relation</h3>
 <CascadingValue Value="@MessageForGrandChild" Name="message">
     <CascadingValue Value="@LuckyNumber" Name="LuckyMessage">
-        <_ChildComponent Title="this is passed from parent component"
+        <_ChildComponent @ref="childComp"
+                         Title="this is passed from parent component"
                          OnButtonClick="ShowMessage">
             <ChildContent>Render Fragment</ChildContent>
             @*<DangerChildContent>Danger child from render fragement </DangerChildContent>*@
@@ -15,11 +16,11 @@
 <_AnotherChildComponent placeholder="Placeholder from parent"></_AnotherChildComponent>
 
 <div class="row">
-    <button class="btn btn-outline-success">Show sweetAlert</button>
+    <button class="btn btn-outline-success" @onclick="()=>childComp.Toastrsuccess()">Show sweetAlert</button>
 </div>
 
 @code {
-    private _
+    private _ChildComponent childComp;
 
     public string MessageForGrandChild = "This message is from your grand parent";
     public string LuckyNumber { get; set; } = "7";
