@@ -1,9 +1,27 @@
 ﻿@page "/"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> localizer
+@inject NavigationManager Nav
 
-<PageTitle>AgIndex</PageTitle>
+<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>@localizer["Greeting"]</h1>
 
 Welcome to your new app.
 
+<button class="btn btn-success" @onclick="ConfigureCulture">Change Culture</button>
+ 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+
+
+    public void ConfigureCulture()
+    {
+        var uri = new Uri(Nav.Uri)
+                    .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                var cultureEscaped = Uri.EscapeDataString("ar-SA");
+                var uriEscaped = Uri.EscapeDataString("/");
+        Nav.NavigateTo($"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                    forceLoad: true);
+    }
+}

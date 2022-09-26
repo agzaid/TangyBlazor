@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tangy_Business.Repository.IRepository;
 using Tangy_DataAccess;
 using Tangy_DataAccess.Data;
 using Tangy_Models.Models;
 
-namespace Tangy_Business.Repository
+namespace Tangy_Business.Repository.IRepository
 {
     public class CategoryRepository : ICategoryRepository
     {
@@ -22,10 +21,10 @@ namespace Tangy_Business.Repository
             _context = context;
             _mapper = mapper;
         }
-        public async Task< CategoryDto > Create(CategoryDto objDto)
+        public async Task<CategoryDto> Create(CategoryDto objDto)
         {
             var obj = _mapper.Map<CategoryDto, Category>(objDto);
-            obj.CreatedDate = DateTime.Now; 
+            obj.CreatedDate = DateTime.Now;
 
             var addedObj = _context.Categories.Add(obj);
             await _context.SaveChangesAsync();
@@ -33,7 +32,7 @@ namespace Tangy_Business.Repository
             return _mapper.Map<Category, CategoryDto>(addedObj.Entity);
         }
 
-        public async Task< int > Delete(int id)
+        public async Task<int> Delete(int id)
         {
             var obj = await _context.Categories.FirstOrDefaultAsync(l => l.Id == id);
             if (obj != null)
@@ -51,8 +50,8 @@ namespace Tangy_Business.Repository
 
         public async Task<CategoryDto> GetById(int id)
         {
-            var obj= await _context.Categories.FirstOrDefaultAsync(l => l.Id == id);
-            if (obj!=null)
+            var obj = await _context.Categories.FirstOrDefaultAsync(l => l.Id == id);
+            if (obj != null)
             {
                 return _mapper.Map<Category, CategoryDto>(obj);
             }
@@ -62,7 +61,7 @@ namespace Tangy_Business.Repository
         public async Task<CategoryDto> Update(CategoryDto objDto)
         {
             var obj = await _context.Categories.FirstOrDefaultAsync(u => u.Id == objDto.Id);
-            if (obj!=null)
+            if (obj != null)
             {
                 obj.Name = objDto.Name;
                 _context.Categories.Update(obj);
