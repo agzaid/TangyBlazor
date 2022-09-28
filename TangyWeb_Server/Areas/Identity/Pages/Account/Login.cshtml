@@ -1,0 +1,32 @@
+﻿@page
+@model TangyWeb_Server.Areas.Identity.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row" style=" margin:50px">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h2>Use local account log in </h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating"style="margin:10px">
+                    <input asp-for="Input.Email" class="form-control" >
+                    <label asp-for="Input.Email" class="form-control" ></label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating"style="margin:10px">
+                    <input asp-for="Input.Password" class="form-control" >
+                    <label asp-for="Input.Password" class="form-control" ></label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div style="margin:10px">
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
+                </div>
+
+            </form>
+        </section>
+    </div>
+</div>
+
